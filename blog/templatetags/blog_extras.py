@@ -3,17 +3,19 @@ from django import template
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.html import format_html
+from blog.models import Post
 
 # instantiate the library
 register = template.Library()
 user_model = get_user_model()
 
-@register.filter
-def author_details(author, current_user):
-    print("hi" + author)
-    if not isinstance(author, user_model):
-        # return empty string as safe default
-        return ""
+# Add context to decorator upon calling method
+@register.simple_tag(takes_context=True)
+def author_details_tag(context):
+    request = context["request"]
+    current_user = request.user
+    post = context["post"]
+    author = post.author
 
     if author == current_user:
         return format_html("<strong>me</strong>")
@@ -30,4 +32,29 @@ def author_details(author, current_user):
         prefix = ""
         suffix = ""
 
-    return format_html('{}{}{}', prefix, name, suffix)
+    return format_html("{}{}{}", prefix, name, suffix)
+
+# can pass class
+@register.simple_tag
+def row(extra_classes=""):
+    return format_html('<div class="row {}">', extra_classes)
+
+
+@register.simple_tag
+def endrow():
+    return format_html("</div>")
+
+@register.simple_tag
+def col(extra_classes=""):
+    return format_html('<div class="col {}">', extra_classes)
+
+
+@register.simple_tag
+def endcol():
+    return format_html("</div>")
+  
+# get 5 latest posts excluding current
+@register.inclusion_tag("blog/post-list.html")
+def recent_posts(post):
+    posts = Post.objects.exclude(pk=post.pk)[:5]
+    return {"title": "Recent Posts", "posts": posts}
