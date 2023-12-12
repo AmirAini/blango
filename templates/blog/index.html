@@ -11,7 +11,7 @@
             <p>{{ post.summary }}</p>
             <p>
                 ({{ post.content|wordcount }} words)
-                <a href="#">Read More</a>
+                <a href="post/{{post.slug}}/"">Read More</a>
             </p>
         </div>
     {% endrow %}

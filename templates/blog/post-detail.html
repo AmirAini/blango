@@ -2,7 +2,7 @@
 {% load blog_extras %}
 {% block content %}
 <h2>{{ post.title }}</h2>
-
+{% include "blog/post-comments.html" %}
 <!-- import logic -->
 {% row %}
     {% col %}
