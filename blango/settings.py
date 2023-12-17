@@ -39,7 +39,6 @@ class Dev(Configuration):
     SESSION_COOKIE_SAMESITE = 'None'
 
     # Application definition
-
     INSTALLED_APPS = [
         'django.contrib.admin',
         'django.contrib.auth',
@@ -47,14 +46,17 @@ class Dev(Configuration):
         'django.contrib.sessions',
         'django.contrib.messages',
         'django.contrib.staticfiles',
+        'blango_auth',
         'blog',
         'crispy_forms',
         'crispy_bootstrap5',
         'debug_toolbar',
     ]
 
+    AUTH_USER_MODEL = "blango_auth.User"
+
     MIDDLEWARE = [
-        'django.middleware.security.SecurityMiddleware',
+        # 'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
         'django.middleware.common.CommonMiddleware',
         # 'django.middleware.csrf.CsrfViewMiddleware',
@@ -109,6 +111,7 @@ class Dev(Configuration):
         'NAME': BASE_DIR / 'db.sqlite3',
       }
     }
+
 
     LOGGING = {
         "version": 1,
