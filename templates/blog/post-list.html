@@ -1,4 +1,5 @@
 <h4>{{ title }}</h4>
+{% csrf_token %}
 <ul>
 {% for post in posts %}
     <li><a href="{% url "blog-post-detail" post.slug %}">{{ post.title }}</a></li>
