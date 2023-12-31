@@ -1,7 +1,8 @@
 from rest_framework import generics
 from blog.api.permissions import AuthorModifyOrReadOnly, IsAdminUserForObject
 
-from blog.api.serializers import PostSerializer, UserSerializer, PostDetailSerializerfrom blog.models import Post
+from blog.api.serializers import PostSerializer, UserSerializer, PostDetailSerializer
+from blog.models import Post
 from blango_auth.models import User
 
 class PostList(generics.ListCreateAPIView):
