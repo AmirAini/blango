@@ -3,6 +3,8 @@ from blog.models import Post, Tag
 from blango_auth.models import User
 from blog.models import Post, Tag, Comment
 
+
+
 class PostSerializer(serializers.ModelSerializer):
   #overide fields 
   tags = serializers.SlugRelatedField(
@@ -24,12 +26,10 @@ class UserSerializer(serializers.ModelSerializer):
     fields = "__all__"
     readonly= ['created_at']
 
-class TagField(serializers.SlugRelatedField):
-    def to_internal_value(self, data):
-        try:
-            return self.get_queryset().get_or_create(value=data.lower())[0]
-        except (TypeError, ValueError):
-            self.fail(f"Tag value {data} is invalid")
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = "__all__"
 
 class CommentSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(required=False)
