@@ -20,6 +20,7 @@ urlpatterns = [
 
 ]
 router = DefaultRouter()
+router.register("posts", PostViewSet)
 router.register("tags", TagViewSet)
 
 schema_view = get_schema_view(
@@ -55,4 +56,3 @@ urlpatterns += [
     # ... other patterns omitted
     path("", include(router.urls)),
 ]
-router.register("posts", PostViewSet)
