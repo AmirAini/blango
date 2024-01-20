@@ -50,27 +50,53 @@
 
 // console.log(doubled)
 
-class DelayedGreeter extends Greeter {
-  delay = 2000
+// class DelayedGreeter extends Greeter {
+//   delay = 2000
 
-  constructor (name, delay) {
-    super(name)
-    if (delay !== undefined) {
-      this.delay = delay
+//   constructor (name, delay) {
+//     super(name)
+//     if (delay !== undefined) {
+//       this.delay = delay
+//     }
+//   }
+
+//   greet () {
+//     setTimeout(
+//       () => {
+//         this.showGreeting(this.getGreeting())
+//       }, this.delay
+//     )
+//   }
+// }
+
+// const dg2 = new DelayedGreeter('Patchy 2 Seconds')
+// dg2.greet()
+
+// const dg1 = new DelayedGreeter('Patchy 1 Second', 1000)
+// dg1.greet()
+
+function resolvedCallback(data) {
+  console.log('Resolved with data ' +  data)
+}
+
+function rejectedCallback(message) {
+  console.log('Rejected with message ' + message)
+}
+
+const lazyAdd = function (a, b) {
+  const doAdd = (resolve, reject) => {
+    if (typeof a !== "number" || typeof b !== "number") {
+      reject("a and b must both be numbers")
+    } else {
+      const sum = a + b
+      resolve(sum)
     }
   }
 
-  greet () {
-    setTimeout(
-      () => {
-        this.showGreeting(this.getGreeting())
-      }, this.delay
-    )
-  }
+  return new Promise(doAdd)
 }
 
-const dg2 = new DelayedGreeter('Patchy 2 Seconds')
-dg2.greet()
+const p = lazyAdd(3, 4)
+p.then(resolvedCallback, rejectedCallback)
 
-const dg1 = new DelayedGreeter('Patchy 1 Second', 1000)
-dg1.greet()
+lazyAdd("nan", "alsonan").then(resolvedCallback, rejectedCallback)
